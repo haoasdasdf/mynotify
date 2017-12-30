@@ -5,7 +5,7 @@ from bottle import route, run
 
 @route("/")
 def hello_world():
-    return ""  # ここで返す内容は何でもよい
+    return "This is a test page"  # ここで返す内容は何でもよい
 
 
 run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
