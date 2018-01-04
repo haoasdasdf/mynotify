@@ -11,6 +11,8 @@ SENDGRID_USERNAME = os.environ.get('SENDGRID_USERNAME')
 SENDGRID_PASSWORD = os.environ.get('SENDGRID_PASSWORD')
 TO_ADDRESS = os.environ.get('TO_ADDRESS')
 FROM_ADDRESS = os.environ.get('SENDGRID_USERNAME')
+MAIL_SUBJECT = os.environ.get('MAIL_SUBJECT')
+MAIL_CONTENT = os.environ.get('MAIL_CONTENT')
 
 
 class SendEmail:
@@ -26,7 +28,7 @@ class SendEmail:
 
 def run():
     a = SendEmail()
-    r = a.send_mail("testEmail", "can you receive?")
+    r = a.send_mail(MAIL_SUBJECT, MAIL_CONTENT)
     print(r.status_code)
     print(r.body)
     print(r.headers)
