@@ -19,9 +19,7 @@ class Email:
         sg = sendgrid.SendGridAPIClient(
             apikey=SENDGRID_API)
         from_email = Email(FROM_ADDRESS)
-        subject = "In Stock"
         to_email = Email(TO_ADDRESS)
-        content = Content("text/plain", "Please check items")
         mail = Mail(from_email, subject, to_email, content)
         response = sg.client.mail.send.post(request_body=mail.get())
         print(response.status_code)
