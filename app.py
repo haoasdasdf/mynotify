@@ -5,7 +5,7 @@ from bottle import route, run
 
 @route("/")
 def hello_world():
-    MAILGUN_API_KEY=os.environ.get('MAILGUN_API_KEY')
+    MAILGUN_API_KEY=os.environ.get('SENDGRID_USERNAME')
     # return "This is a test page"  # ここで返す内容は何でもよい
     return MAILGUN_API_KEY
 
