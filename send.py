@@ -30,8 +30,8 @@ def run():
     a = SendEmail()
     r = a.send_mail(MAIL_SUBJECT, MAIL_CONTENT)
     print(r.status_code)
-    print(r.body)
-    print(r.headers)
+#     print(r.body)
+#     print(r.headers)
 
 
 if __name__ == '__main__':
