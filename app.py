@@ -10,8 +10,7 @@ from bottle import route, run, template
 from bs4 import BeautifulSoup
 
 APP_URL = os.environ.get('APP_URL')
-# CLEARDB_DATABASE_URL = os.environ.get('CLEARDB_DATABASE_URL')
-CLEARDB_DATABASE_URL = 'mysql://b8f52406326a20:c044b4d5@us-cdbr-iron-east-05.cleardb.net/heroku_d72f255429a03f3?reconnect=true'
+CLEARDB_DATABASE_URL = os.environ.get('CLEARDB_DATABASE_URL')
 
 
 @route("/")
