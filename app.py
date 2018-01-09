@@ -42,7 +42,7 @@ def hello_world():
             'update_time': row[4]
         })
         info.append(one)
-    return template('index', info=info)  # ここで返す内容は何でもよい
+    return template('./views/index.html', info=info)  # ここで返す内容は何でもよい
 
 
 def call():
@@ -55,7 +55,7 @@ def call():
 
 
 def main():
-    call()
+    # call()
     run(host="127.0.0.1", port=int(os.environ.get("PORT", 5000)))
 
 
