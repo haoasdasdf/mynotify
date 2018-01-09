@@ -45,6 +45,5 @@ class NotifyApp:
 def main():
     app = NotifyApp()
 
-
 if __name__ == '__main__':
     main()
