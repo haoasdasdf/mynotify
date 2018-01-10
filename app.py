@@ -6,7 +6,7 @@ from urllib import parse
 
 import MySQLdb
 import requests
-from bottle import route, run, template
+from bottle import route, run, template, default_app
 from bs4 import BeautifulSoup
 
 APP_URL = os.environ.get('APP_URL')
@@ -56,10 +56,8 @@ def call():
         pass
 
 
-def main():
-    # call()
-    run(host="127.0.0.1", port=int(os.environ.get("PORT", 5000)))
-
-
 if __name__ == '__main__':
-    main()
+    # call()
+    run(host="gunicorn")
+
+app = default_app()
