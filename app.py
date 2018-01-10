@@ -44,7 +44,7 @@ def hello_world():
     #     })
     #     info.append(one)
     # return template('./views/index.html', info=info)  # ここで返す内容は何でもよい
-    return CLEARDB_DATABASE_URL
+    return (CLEARDB_DATABASE_URL)
 
 def call():
     t = Timer(1799, call)
