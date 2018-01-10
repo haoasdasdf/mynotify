@@ -15,7 +15,7 @@ CLEARDB_DATABASE_URL = os.environ.get('CLEARDB_DATABASE_URL')
 
 @route("/")
 def hello_world():
-    return ("hello:" + CLEARDB_DATABASE_URL)
+    return ("hello:")
     # url = parse.urlparse(
     #     'mysql://b8f52406326a20:c044b4d5@us-cdbr-iron-east-05.cleardb.net/heroku_d72f255429a03f3?reconnect=true')
     # db_info = {
