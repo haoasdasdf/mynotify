@@ -6,12 +6,40 @@
 </head>
 
 <body>
-  <h1>結果出力のページ</h1>
-  <p>{{info[0].get('name')}} : {{info[0].get('price')}} at {{info[0].get('update_time')}}</p>
-  <p>{{info[1].get('name')}} : {{info[1].get('price')}} at {{info[1].get('update_time')}}</p>
-  <p>{{info[2].get('name')}} : {{info[2].get('price')}} at {{info[2].get('update_time')}}</p>
-  <p>{{info[3].get('name')}} : {{info[3].get('price')}} at {{info[3].get('update_time')}}</p>
-  <p>{{info[4].get('name')}} : {{info[4].get('price')}} at {{info[4].get('update_time')}}</p>
+
+  <table>
+    <caption>結果出力のページ</caption>
+    <tr>
+      <th>NAME</th>
+      <th>PRICE</th>
+      <th>UPTIME</th>
+    </tr>
+    <tr>
+      <td>{{info[0].get('name')}}</td>
+      <td>{{info[0].get('price')}}</td>
+      <td>{{info[0].get('update_time')}}</td>
+    </tr>
+    <tr>
+      <td>{{info[1].get('name')}}</td>
+      <td>{{info[1].get('price')}}</td>
+      <td>{{info[1].get('update_time')}}</td>
+    </tr>
+    <tr>
+      <td>{{info[2].get('name')}}</td>
+      <td>{{info[2].get('price')}}</td>
+      <td>{{info[2].get('update_time')}}</td>
+    </tr>
+    <tr>
+      <td>{{info[3].get('name')}}</td>
+      <td>{{info[3].get('price')}}</td>
+      <td>{{info[3].get('update_time')}}</td>
+    </tr>
+    <tr>
+      <td>{{info[4].get('name')}}</td>
+      <td>{{info[4].get('price')}}</td>
+      <td>{{info[4].get('update_time')}}</td>
+    </tr>
+  </table>
 </body>
 
 </html>
