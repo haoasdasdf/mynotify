@@ -55,7 +55,7 @@ def call():
 
 
 if __name__ == '__main__':
-    # call()
+    call()
     run(host="gunicorn")
 
 app = default_app()
