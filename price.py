@@ -26,19 +26,19 @@ class Price:
         base_url = 'https://www.coingecko.com/ja/%E7%9B%B8%E5%A0%B4%E3%83%81%E3%83%A3%E3%83%BC%E3%83%88/'
 
         self.btc = BeautifulSoup(requests.get(base_url + 'bitcoin' + '/usd').text,
-                                 'lxml').find("div", class_="coin-value").span.text
+                                 'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
 
         self.zny = BeautifulSoup(requests.get(base_url + 'bitzeny' + '/usd').text,
-                                 'lxml').find("div", class_="coin-value").span.text
+                                 'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
 
         self.bco = BeautifulSoup(requests.get(base_url + 'bridgecoin' + '/usd').text,
-                                 'lxml').find("div", class_="coin-value").span.text
+                                 'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
 
         self.doge = BeautifulSoup(requests.get(base_url + 'dogecoin' + '/usd').text,
-                                  'lxml').find("div", class_="coin-value").span.text
+                                  'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
 
         self.xp = BeautifulSoup(requests.get(base_url + 'xp' + '/usd').text,
-                                'lxml').find("div", class_="coin-value").span.text
+                                'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
 
     def _update_price(self):
         con = MySQLdb.connect(user=db_info.get('USER'),
@@ -46,15 +46,16 @@ class Price:
                               host=db_info.get('HOST'),
                               db=db_info.get('NAME'))
         cur = con.cursor()
-        update_sql = "update price set price=%s and update_date=%s where symbol=%s;"
+        update_sql = "update price set 'price'='{price}' and 'update_date'='{time}' where 'symbol'='{symbol}';"
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        cur.execute(update_sql, (self.btc, now, 'btc'))
-        cur.execute(update_sql, (self.zny, now, 'zny'))
-        cur.execute(update_sql, (self.bco, now, 'bco'))
-        cur.execute(update_sql, (self.doge, now, 'doge'))
-        cur.execute(update_sql, (self.xp, now, 'xp'))
-
+        cur.execute(update_sql.format(price=self.btc, time=now, symbol="btc",))
+        cur.execute(update_sql.format(price=self.zny, time=now, symbol="zny",))
+        cur.execute(update_sql.format(price=self.bco, time=now, symbol="bco",))
+        cur.execute(update_sql.format(
+            price=self.doge, time=now, symbol="doge",))
+        cur.execute(update_sql.format(price=self.xp, time=now, symbol="xp",))
+        test=update_sql.format(price="1000$", time=now, symbol="btc",)
+        print(test)
         cur.close
         con.close
 
