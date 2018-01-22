@@ -41,7 +41,7 @@ class Price:
                                   'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
         self.xp = BeautifulSoup(requests.get(base_url + 'xp' + '/usd').text,
                                 'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
-        self.ytn = BeautifulSoup(requests.get(base_url + 'ytn' + '/usd').text,
+        self.ytn = BeautifulSoup(requests.get(base_url + 'yenten' + '/usd').text,
                                  'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
 
     def _update_price(self):
