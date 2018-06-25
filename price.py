@@ -26,23 +26,23 @@ class Price:
         self.timer.cancel()
 
     def _get_price(self):
-        base_url = 'https://www.coingecko.com/ja/%E7%9B%B8%E5%A0%B4%E3%83%81%E3%83%A3%E3%83%BC%E3%83%88/'
+        base_url = 'https://www.coingecko.com/en/price_charts/'
 
         self.btc = BeautifulSoup(requests.get(base_url + 'bitcoin' + '/usd').text,
-                                 'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
+                                 'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
 
         self.zny = BeautifulSoup(requests.get(base_url + 'bitzeny' + '/usd').text,
-                                 'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
+                                 'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
 
         self.bco = BeautifulSoup(requests.get(base_url + 'bridgecoin' + '/usd').text,
-                                 'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
+                                 'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
 
         self.doge = BeautifulSoup(requests.get(base_url + 'dogecoin' + '/usd').text,
-                                  'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
+                                  'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
         self.xp = BeautifulSoup(requests.get(base_url + 'xp' + '/usd').text,
-                                'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
+                                'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
         self.ytn = BeautifulSoup(requests.get(base_url + 'yenten' + '/usd').text,
-                                 'lxml').find("div", class_="coin-value").span.text.replace("\n", "")
+                                 'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
 
     def _update_price(self):
         con = MySQLdb.connect(user=db_info.get('USER'),
