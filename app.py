@@ -4,7 +4,7 @@ import os
 from threading import Timer
 from urllib import parse
 
-import MySQLdb
+import pymysql.cursors
 import requests
 from bottle import route, run, template, default_app
 from bs4 import BeautifulSoup
@@ -23,7 +23,7 @@ def hello_world():
         'HOST': url.hostname,
         'PORT': url.port if url.port else 3306,
     }
-    con = MySQLdb.connect(user=db_info.get('USER'),
+    con = pymysql.connect(user=db_info.get('USER'),
                           passwd=db_info.get('PASSWORD'),
                           host=db_info.get('HOST'),
                           db=db_info.get('NAME'))
@@ -57,5 +57,5 @@ def call():
 if __name__ == '__main__':
     call()
     run(host="gunicorn")
-
+    # run(port=8000) // for localhost
 app = default_app()

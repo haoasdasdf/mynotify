@@ -4,76 +4,78 @@ from datetime import datetime, timedelta
 from time import sleep
 from urllib import parse
 
-import MySQLdb
+import pymysql.cursors
 import requests
 from bs4 import BeautifulSoup
 
 CLEARDB_DATABASE_URL = os.environ.get('CLEARDB_DATABASE_URL')
 url = parse.urlparse(CLEARDB_DATABASE_URL)
 db_info = {
-    'NAME': url.path[1:],
-    'USER': url.username,
-    'PASSWORD': url.password,
-    'HOST': url.hostname,
-    'PORT': url.port if url.port else 3306,
+	'NAME': url.path[1:],
+	'USER': url.username,
+	'PASSWORD': url.password,
+	'HOST': url.hostname,
+	'PORT': url.port if url.port else 3306,
 }
 
+coins = {
+	# { 'name': 'symbol' }
+	'bitcoin': 'btc',
+	'bitzeny': 'zny',
+	'bridgecoin': 'bco',
+	'dogecoin': 'doge',
+	'xp': 'xp',
+	'yenten': 'ytn',
+		'monero': 'xmr'
+}
 
 class Price:
-    def __init__(self):
-        self._run()
-        sleep(400)
-        self.timer.cancel()
+	def __init__(self):
+		self._run()
+		# sleep(400)
+		# self.timer.cancel()
 
-    def _get_price(self):
-        base_url = 'https://www.coingecko.com/en/price_charts/'
+	def _get_price(self):
+		self.base_url = 'https://www.coingecko.com/en/price_charts/'
+		for name, symbol in coins.items() :
+			url = self.base_url + name + '/usd'
+			print (url)
+			price = BeautifulSoup(requests.get(url).text,
+			'lxml').findAll("div", class_="text-3xl")[1].span.text
 
-        self.btc = BeautifulSoup(requests.get(base_url + 'bitcoin' + '/usd').text,
-                                 'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
+			print(price)
+			self._update_price(price, symbol)
 
-        self.zny = BeautifulSoup(requests.get(base_url + 'bitzeny' + '/usd').text,
-                                 'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
+	def connectDB(self):
+		self.con = pymysql.connect(user=db_info.get('USER'),
+			passwd=db_info.get('PASSWORD'),
+			host=db_info.get('HOST'),
+			db=db_info.get('NAME'))
+		self.cur = self.con.cursor()
 
-        self.bco = BeautifulSoup(requests.get(base_url + 'bridgecoin' + '/usd').text,
-                                 'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
+	def _update_price(self, price, symbol):
+		update_sql = ("update price set price='{price}' , update_date='{time}' where symbol='{symbol}';")
+		self.cur.execute(update_sql.format(price=price, time=self.now, symbol=symbol,))
 
-        self.doge = BeautifulSoup(requests.get(base_url + 'dogecoin' + '/usd').text,
-                                  'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
-        self.xp = BeautifulSoup(requests.get(base_url + 'xp' + '/usd').text,
-                                'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
-        self.ytn = BeautifulSoup(requests.get(base_url + 'yenten' + '/usd').text,
-                                 'lxml').find("div", class_="text-5xl").span.text.replace("\n", "")
+		self.con.commit()
 
-    def _update_price(self):
-        con = MySQLdb.connect(user=db_info.get('USER'),
-                              passwd=db_info.get('PASSWORD'),
-                              host=db_info.get('HOST'),
-                              db=db_info.get('NAME'))
-        cur = con.cursor()
-        update_sql = "update price set price='{price}' , update_date='{time}' where symbol='{symbol}';"
-        now = (datetime.now() + timedelta(hours=9)
-               ).strftime('%Y-%m-%d %H:%M:%S')
-        cur.execute(update_sql.format(price=self.btc, time=now, symbol="btc",))
-        cur.execute(update_sql.format(price=self.zny, time=now, symbol="zny",))
-        cur.execute(update_sql.format(price=self.bco, time=now, symbol="bco",))
-        cur.execute(update_sql.format(
-            price=self.doge, time=now, symbol="doge",))
-        cur.execute(update_sql.format(price=self.xp, time=now, symbol="xp",))
-        cur.execute(update_sql.format(price=self.ytn, time=now, symbol="ytn",))
-        con.commit()
-        cur.close
-        con.close
+	def closeDB(self):
+		self.cur.close
+		self.con.close
 
-    def _run(self):
-        self.timer = threading.Timer(150, self._run)
-        self.timer.start()
-        self._get_price()
-        self._update_price()
-
+	def _run(self):
+		# self.timer = threading.Timer(150, self._run)
+		# self._run
+		# self.timer.start()
+		self.now = (datetime.now() + timedelta(hours=9)).strftime('%Y-%m-%d %H:%M:%S')
+		self.connectDB()
+		self._get_price()
+		self.closeDB()
+		# self._update_price()
 
 def main():
-    app = Price()
+	app = Price()
 
 
 if __name__ == '__main__':
-    main()
+	main()
