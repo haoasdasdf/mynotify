@@ -22,7 +22,7 @@ coins = {
 	# { 'name': 'symbol' }
 	'bitcoin': 'btc',
 	'bitzeny': 'zny',
-	'bridgecoin': 'bco',
+	# 'bridgecoin': 'bco',
 	'dogecoin': 'doge',
 	'xp': 'xp',
 	'yenten': 'ytn',
@@ -45,7 +45,7 @@ class Price:
 
 			print(price)
 			self._update_price(price, symbol)
-			sleep(2000)
+			# sleep(2)
 
 	def connectDB(self):
 		self.con = pymysql.connect(user=db_info.get('USER'),
