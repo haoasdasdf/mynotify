@@ -41,7 +41,7 @@ class Price:
 			url = self.base_url + name + '/usd'
 			print (url)
 			price = BeautifulSoup(requests.get(url).text,
-			'lxml').findAll("div", class_="text-3xl")[1].span.text
+			'lxml').findAll("div", class_="text-3xl")[0].span.text
 
 			print(price)
 			self._update_price(price, symbol)
