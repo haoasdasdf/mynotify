@@ -3,7 +3,7 @@ import threading
 from datetime import datetime, timedelta
 from time import sleep
 from urllib import parse
-
+import time
 import pymysql.cursors
 import requests
 from bs4 import BeautifulSoup
@@ -45,6 +45,7 @@ class Price:
 
 			print(price)
 			self._update_price(price, symbol)
+			sleep(2000)
 
 	def connectDB(self):
 		self.con = pymysql.connect(user=db_info.get('USER'),
