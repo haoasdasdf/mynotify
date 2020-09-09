@@ -40,11 +40,14 @@ class Price:
 		for name, symbol in coins.items() :
 			url = self.base_url + name + '/usd'
 			print (url)
-			price = BeautifulSoup(requests.get(url).text,
-			'lxml').findAll("div", class_="text-3xl")[0].span.text
+			try:
+				price = BeautifulSoup(requests.get(url).text,
+				'lxml').findAll("div", class_="text-3xl")[0].span.text
 
-			print(price)
-			self._update_price(price, symbol)
+				print(price)
+				self._update_price(price, symbol)
+			except:
+				pass
 			# sleep(2)
 
 	def connectDB(self):
